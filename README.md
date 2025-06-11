@@ -112,7 +112,7 @@ Expected output: Top ranked course names printed with similarity scores.
 * This version uses in-memory dictionaries for embedding lookup.
 * Not optimized for scale or production deployment.
 * No persistent index — search is recomputed per run.
-To upgrade this to a production-ready version, consider using ChromaDB or Milvus for persistent, indexed vector storage.
+To upgrade this to a production-ready version, will use ChromaDB for indexed vector storage.
 
 ##### 🧱 Next Step
 
