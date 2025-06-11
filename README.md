@@ -69,6 +69,7 @@ Ensures that semantically strong results containing the user’s key terms bubbl
 
 ## 📁 Files
 
+embedding_model.py #precomputng embeddings , save the model and the embeddings
 semantic_search_poc.py #Main POC script for generating embeddings and running the dual-model search
 
 course_details.csv #Input dataset containing course names and descriptions
