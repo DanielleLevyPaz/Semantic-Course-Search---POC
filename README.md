@@ -1,4 +1,4 @@
-# Semantic-Course-Search---POC
+# Semantic-Course-Search---POC (Semantic-search)
 This project is a proof of concept (POC) for a semantic course search engine that uses SentenceTransformer-based embeddings and manual vector similarity matching to retrieve relevant courses based on natural language queries.
 ##### 🧠 Key Features
 
@@ -117,3 +117,84 @@ To upgrade this to a production-ready version, will use ChromaDB for indexed vec
 ##### 🧱 Next Step
 
 Next: Convert this logic into a production-ready setup using ChromaDB.
+
+
+# Semantic-Course-Search---POC (FAISS)
+
+This project is a proof-of-concept semantic search engine for course titles and descriptions. It uses two transformer models (MiniLM and MPNet) to generate embeddings, and leverages [FAISS](https://github.com/facebookresearch/faiss) for fast similarity search. The system also includes typo correction and reranking for improved search relevance.
+
+---
+
+## Features
+
+- **Dual-model semantic search:** Uses both MiniLM (for course titles) and MPNet (for full descriptions) embeddings.
+- **Typo correction:** Fuzzy-matches query tokens to correct user typos.
+- **Fast similarity search:** Uses FAISS for efficient nearest neighbor search over all courses.
+- **Score fusion:** Combines results from both models for robust ranking.
+- **Reranking:** Prioritizes courses with the most word overlap with the query.
+
+---
+
+## How It Works
+
+1. **Preprocessing:**  
+   - Course data is embedded using MiniLM and MPNet models.
+   - Embeddings are saved to disk for fast loading.
+
+2. **Search Pipeline:**  
+   - **Typo Correction:** The query is split into tokens, and each token is corrected using fuzzy matching.
+   - **Semantic Search:** The corrected query is embedded and searched against all course embeddings using FAISS.
+   - **Score Fusion:** Results from both models are combined using a weighted sum.
+   - **Reranking:** Results are sorted to prioritize courses with the most token overlap with the query.
+
+---
+
+## Usage
+
+1. **Install dependencies:**
+    ```python
+    !pip install sentence-transformers scikit-learn rapidfuzz faiss-cpu
+    ```
+
+2. **Prepare your models and embeddings:**
+    - Place your trained MiniLM and MPNet models in the `models/` directory.
+    - Generate and save course embeddings as `.npy` and `.pkl` files.
+
+3. **Run the search:**
+    - Use the provided Jupyter notebook or Python script to load models, embeddings, and run searches:
+    ```python
+    results = dual_model_search_with_title_embeddings(
+        query="your search phrase",
+        mini_model=model_st,
+        mpnet_model=semantic_model,
+        mini_title_to_embedding=mini_title_to_embedding,
+        mpnet_course_to_embedding=mpnet_course_to_embedding,
+        top_k=5
+    )
+    print(results)
+    ```
+
+---
+
+## File Structure
+
+- `semantic_search_poc.ipynb` — Main notebook with code and examples.
+- `models/` — Directory for transformer models.
+- `mini_title_embeddings.npy`, `mpnet_course_embeddings.npy` — Saved course embeddings.
+- `mini_title_to_embedding.pkl`, `mpnet_course_to_embedding.pkl` — Mapping from course names to embeddings.
+
+---
+
+## Requirements
+
+- Python 3.7+
+- sentence-transformers
+- scikit-learn
+- rapidfuzz
+- faiss-cpu
+
+---
+
+## License
+
+This project is for educational and prototyping purposes.
